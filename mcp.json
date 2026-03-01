@@ -1,0 +1,98 @@
+{
+  "servers": [
+    {
+      "name": "email",
+      "command": "node",
+      "args": ["D:/hackathons-projects/AI_Employee/mcp/email-mcp/index.js"],
+      "env": {
+        "GMAIL_CREDENTIALS_PATH": "D:/hackathons-projects/AI_Employee/credentials.json",
+        "GMAIL_TOKEN_PATH": "D:/hackathons-projects/AI_Employee/token.json",
+        "VAULT_PATH": "D:/hackathons-projects/AI_Employee/AI_Employee_Vault",
+        "NODE_ENV": "production"
+      }
+    },
+    {
+      "name": "odoo",
+      "command": "node",
+      "args": ["D:/hackathons-projects/AI_Employee/mcp/odoo-mcp/index.js"],
+      "env": {
+        "ODOO_URL": "http://localhost:8069",
+        "ODOO_DB": "ai_employee",
+        "ODOO_USERNAME": "admin",
+        "ODOO_PASSWORD": "set_in_.env_file",
+        "VAULT_PATH": "D:/hackathons-projects/AI_Employee/AI_Employee_Vault",
+        "DRY_RUN": "false",
+        "NODE_ENV": "production"
+      }
+    },
+    {
+      "name": "twitter",
+      "command": "node",
+      "args": ["D:/hackathons-projects/AI_Employee/mcp/twitter-mcp/index.js"],
+      "env": {
+        "TWITTER_API_KEY": "dhz6ggDVjT4OXLtcRoD2idylt",
+        "TWITTER_API_SECRET": "qENogxpTLiiNW5maJWWVEmrq3lGli0o9I7YuWSpaMHz9KDP4Jy",
+        "TWITTER_ACCESS_TOKEN": "2012472874829815809-dwOD4uujDg3tcoGjTDys5PyFtpSTFQ",
+        "TWITTER_ACCESS_SECRET": "897nFXIu1gkIR6SyFCIo6Lz1ziKD54WkbaqgX9v4x6jRr",
+        "VAULT_PATH": "D:/hackathons-projects/AI_Employee/AI_Employee_Vault",
+        "DRY_RUN": "false",
+        "NODE_ENV": "production"
+      }
+    },
+    {
+      "name": "linkedin",
+      "command": "node",
+      "args": ["D:/hackathons-projects/AI_Employee/mcp/linkedin-mcp/index.js"],
+      "env": {
+        "VAULT_PATH": "D:/hackathons-projects/AI_Employee/AI_Employee_Vault",
+        "LINKEDIN_ACCESS_TOKEN": "AQWRWAdvM7NdpAYHJ7dLeyUIw1DjS5rffk0_h7UDqHrInwADAgEMvoMfIFXoO0vyOEdTxkXs-pSXsqxBCx0V02p2RepH511AfqzQIOgCIzIvn7rlPayqgijuFGqB3G15DblFzi8EBvfFAkqioGzLL8yud-LhiKvXr-OlQjMNU4M1qz9ncfxdCCvOVBPPlRxU3B5OJfHdJA2S3cfYzbxe6_O-MgZ8ko9mWNFQTTXaSEtS_JkR037MClIBAh-ymjY3zDQQ5RjDas1gS5dzml_l8oR1kn0LUKCfKB9snb_iThTnRmLOXhdbh_yKUJ4JzyVsS1RwMCdrsLdwGHycgR5FaBOoL_Sv7A",
+        "LINKEDIN_PERSON_ID": "ACoAAEs5sCsB7sMOMBvsXWWGRwV9_Ua8wAWHqRk",
+        "DRY_RUN": "false",
+        "NODE_ENV": "production"
+      }
+    },
+    {
+      "name": "facebook",
+      "command": "node",
+      "args": ["D:/hackathons-projects/AI_Employee/mcp/facebook-mcp/index.js"],
+      "env": {
+        "VAULT_PATH": "D:/hackathons-projects/AI_Employee/AI_Employee_Vault",
+        "FACEBOOK_ACCESS_TOKEN": "your_facebook_access_token",
+        "FACEBOOK_PAGE_ID": "your_facebook_page_id",
+        "INSTAGRAM_ACCESS_TOKEN": "your_instagram_access_token",
+        "INSTAGRAM_ACCOUNT_ID": "your_instagram_account_id",
+        "DRY_RUN": "false",
+        "NODE_ENV": "production"
+      }
+    },
+    {
+      "name": "social",
+      "command": "node",
+      "args": ["D:/hackathons-projects/AI_Employee/mcp/social-mcp/index.js"],
+      "env": {
+        "VAULT_PATH": "D:/hackathons-projects/AI_Employee/AI_Employee_Vault",
+        "SIMULATION_MODE": "false",
+        "DRY_RUN": "false",
+        "NODE_ENV": "production"
+      }
+    },
+    {
+      "name": "browser",
+      "command": "node",
+      "args": ["D:/hackathons-projects/AI_Employee/mcp/browser-mcp/index.js"],
+      "env": {
+        "HEADLESS": "true",
+        "NODE_ENV": "production"
+      }
+    },
+    {
+      "name": "calendar",
+      "command": "node",
+      "args": ["D:/hackathons-projects/AI_Employee/mcp/calendar-mcp/index.js"],
+      "env": {
+        "VAULT_PATH": "D:/hackathons-projects/AI_Employee/AI_Employee_Vault",
+        "NODE_ENV": "production"
+      }
+    }
+  ]
+}

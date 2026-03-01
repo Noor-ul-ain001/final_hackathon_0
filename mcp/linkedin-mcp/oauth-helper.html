@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LinkedIn OAuth Helper</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; }
+        .step { background: #f5f5f5; padding: 20px; margin: 20px 0; border-radius: 8px; }
+        code { background: #e0e0e0; padding: 2px 6px; border-radius: 4px; }
+        pre { background: #2d2d2d; color: #f8f8f2; padding: 15px; border-radius: 8px; overflow-x: auto; }
+        button { background: #0077b5; color: white; border: none; padding: 12px 24px; border-radius: 4px; cursor: pointer; font-size: 16px; }
+        button:hover { background: #005885; }
+        input { width: 100%; padding: 10px; margin: 10px 0; box-sizing: border-box; }
+        .result { background: #d4edda; padding: 15px; border-radius: 8px; margin-top: 20px; }
+        .error { background: #f8d7da; padding: 15px; border-radius: 8px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>LinkedIn OAuth Helper</h1>
+    <p>This helper will get you a proper access token with your numeric member ID.</p>
+
+    <div class="step">
+        <h2>Step 1: Enter Your App Credentials</h2>
+        <label>Client ID:</label>
+        <input type="text" id="clientId" value="77jwvf4x9tob6v">
+        <label>Client Secret:</label>
+        <input type="password" id="clientSecret" value="YOUR_LINKEDIN_CLIENT_SECRET">
+        <label>Redirect URI (use exactly):</label>
+        <input type="text" id="redirectUri" value="https://oauth.pstmn.io/v1/callback">
+    </div>
+
+    <div class="step">
+        <h2>Step 2: Authorize with LinkedIn</h2>
+        <p>Click the button below to open LinkedIn authorization. After authorizing, you'll be redirected with a code.</p>
+        <button onclick="startOAuth()">Authorize with LinkedIn</button>
+        <p style="margin-top: 15px;"><small>Required scope: <code>w_member_social openid profile</code></small></p>
+    </div>
+
+    <div class="step">
+        <h2>Step 3: Enter the Authorization Code</h2>
+        <p>After authorization, paste the <code>code</code> parameter from the redirect URL:</p>
+        <input type="text" id="authCode" placeholder="Paste authorization code here">
+        <button onclick="exchangeCode()">Exchange for Token</button>
+    </div>
+
+    <div id="result"></div>
+
+    <div class="step">
+        <h2>Manual cURL Command</h2>
+        <p>If the button doesn't work, use this cURL command after getting the code:</p>
+        <pre id="curlCommand">curl -X POST https://www.linkedin.com/oauth/v2/accessToken \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "grant_type=authorization_code" \
+  -d "code=YOUR_CODE_HERE" \
+  -d "redirect_uri=https://oauth.pstmn.io/v1/callback" \
+  -d "client_id=77jwvf4x9tob6v" \
+  -d "client_secret=YOUR_LINKEDIN_CLIENT_SECRET"</pre>
+    </div>
+
+    <script>
+        function startOAuth() {
+            const clientId = document.getElementById('clientId').value;
+            const redirectUri = encodeURIComponent(document.getElementById('redirectUri').value);
+            const scope = encodeURIComponent('w_member_social openid profile');
+            const state = Math.random().toString(36).substring(7);
+
+            const authUrl = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&state=${state}`;
+
+            window.open(authUrl, '_blank');
+        }
+
+        async function exchangeCode() {
+            const code = document.getElementById('authCode').value;
+            const clientId = document.getElementById('clientId').value;
+            const clientSecret = document.getElementById('clientSecret').value;
+            const redirectUri = document.getElementById('redirectUri').value;
+
+            if (!code) {
+                alert('Please enter the authorization code');
+                return;
+            }
+
+            // Note: This won't work directly due to CORS - use the cURL command instead
+            document.getElementById('result').innerHTML = `
+                <div class="error">
+                    <h3>Use cURL Command</h3>
+                    <p>Due to browser security, you need to run this command in your terminal:</p>
+                    <pre>curl -X POST "https://www.linkedin.com/oauth/v2/accessToken" \\
+  -H "Content-Type: application/x-www-form-urlencoded" \\
+  -d "grant_type=authorization_code" \\
+  -d "code=${code}" \\
+  -d "redirect_uri=${encodeURIComponent(redirectUri)}" \\
+  -d "client_id=${clientId}" \\
+  -d "client_secret=${clientSecret}"</pre>
+                    <p>Then get your member ID:</p>
+                    <pre>curl -H "Authorization: Bearer YOUR_NEW_TOKEN" https://api.linkedin.com/v2/userinfo</pre>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

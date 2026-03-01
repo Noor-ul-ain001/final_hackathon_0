@@ -1,0 +1,23 @@
+{
+  "name": "twitter-mcp-server",
+  "version": "1.0.0",
+  "description": "Twitter/X MCP server for AI Employee - social media management",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "keywords": [
+    "mcp",
+    "twitter",
+    "social-media",
+    "ai-employee"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "twitter-api-v2": "^1.17.0",
+    "dotenv": "^16.4.5"
+  }
+}

@@ -1,0 +1,17 @@
+# AI Employee - Core Requirements (Minimal)
+# Install with: pip install -r requirements-core.txt
+#
+# This contains only the essential packages for the WhatsApp approval system
+
+python-dotenv>=1.0.0          # Environment variable management
+requests>=2.31.0              # HTTP library
+twilio>=8.10.0                # WhatsApp via Twilio
+flask>=3.0.0                  # Webhook server
+python-dateutil>=2.8.2        # Date utilities
+pyyaml>=6.0.1                 # YAML parsing
+watchdog>=3.0.0               # File system monitoring
+
+# Google APIs (for Gmail features)
+google-api-python-client>=2.100.0
+google-auth-httplib2>=0.2.0
+google-auth-oauthlib>=1.2.0

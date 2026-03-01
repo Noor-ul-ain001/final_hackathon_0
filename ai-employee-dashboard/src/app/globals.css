@@ -1,0 +1,451 @@
+@import "tailwindcss";
+
+:root {
+  /* Dark Gold Theme Colors */
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #111111;
+  --bg-card: #161616;
+  --bg-card-hover: #1a1a1a;
+  --bg-elevated: #1e1e1e;
+  --bg-sidebar: #0d0d0d;
+
+  /* Gold/Amber Accent Colors */
+  --accent-gold: #d4a574;
+  --accent-gold-light: #e8c9a0;
+  --accent-gold-dark: #b8956a;
+  --accent-gold-muted: #8b7355;
+  --accent-gold-dim: rgba(212, 165, 116, 0.1);
+
+  /* Text Colors */
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0a0;
+  --text-muted: #666666;
+  --text-gold: #d4a574;
+
+  /* Border Colors */
+  --border-primary: #1f1f1f;
+  --border-secondary: #2a2a2a;
+  --border-gold: rgba(212, 165, 116, 0.2);
+
+  /* Status Colors */
+  --status-success: #4ade80;
+  --status-warning: #fbbf24;
+  --status-error: #f87171;
+  --status-info: #60a5fa;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.5);
+  --shadow-gold: 0 4px 20px rgba(212, 165, 116, 0.15);
+}
+
+@theme inline {
+  --color-background: var(--bg-primary);
+  --color-foreground: var(--text-primary);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  /* Responsive breakpoints */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container {
+    @apply px-4;
+  }
+}
+
+/* Mobile-first responsive adjustments */
+@media (max-width: 640px) {
+  .mobile-container {
+    @apply px-4;
+  }
+
+  .mobile-padding {
+    @apply p-4;
+  }
+
+  .mobile-gap {
+    @apply gap-4;
+  }
+
+  .mobile-flex-col {
+    @apply flex-col;
+  }
+
+  .mobile-w-full {
+    @apply w-full;
+  }
+}
+
+
+/* Custom Animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInLeft {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeInRight {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideInFromTop {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-gold {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(212, 165, 116, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(212, 165, 116, 0); }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 5px rgba(212, 165, 116, 0.3); }
+  50% { box-shadow: 0 0 20px rgba(212, 165, 116, 0.5); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes progressBar {
+  from { width: 0%; }
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes borderGlow {
+  0%, 100% { border-color: rgba(212, 165, 116, 0.2); }
+  50% { border-color: rgba(212, 165, 116, 0.5); }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.8); opacity: 0.5; }
+  50% { transform: scale(1); opacity: 0.3; }
+  100% { transform: scale(0.8); opacity: 0.5; }
+}
+
+@keyframes growUp {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+
+/* Animation Classes */
+.animate-fade-in-up { animation: fadeInUp 0.5s ease-out forwards; }
+.animate-fade-in-left { animation: fadeInLeft 0.5s ease-out forwards; }
+.animate-fade-in-right { animation: fadeInRight 0.5s ease-out forwards; }
+.animate-scale-in { animation: scaleIn 0.4s ease-out forwards; }
+.animate-slide-in-top { animation: slideInFromTop 0.3s ease-out forwards; }
+.animate-float { animation: float 3s ease-in-out infinite; }
+.animate-pulse-gold { animation: pulse-gold 2s ease-in-out infinite; }
+.animate-glow { animation: glow 2s ease-in-out infinite; }
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(212, 165, 116, 0.1), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+.animate-count-up { animation: countUp 0.6s ease-out forwards; }
+.animate-progress-bar { animation: progressBar 1s ease-out forwards; }
+.animate-border-glow { animation: borderGlow 2s ease-in-out infinite; }
+
+/* Stagger delays */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+.delay-600 { animation-delay: 600ms; }
+.delay-700 { animation-delay: 700ms; }
+.delay-800 { animation-delay: 800ms; }
+
+/* Card styles */
+.card-dark {
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  border-radius: 16px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-dark:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-secondary);
+  box-shadow: var(--shadow-md);
+}
+
+.card-gold-border {
+  background: var(--bg-card);
+  border: 1px solid var(--border-gold);
+  border-radius: 16px;
+}
+
+.card-gold-border:hover {
+  border-color: var(--accent-gold);
+  box-shadow: var(--shadow-gold);
+}
+
+.card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Progress circle */
+.progress-circle {
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
+
+.progress-circle-bg {
+  fill: none;
+  stroke: var(--border-secondary);
+}
+
+.progress-circle-progress {
+  fill: none;
+  stroke: var(--accent-gold);
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s ease-out;
+}
+
+/* Gradients */
+.gradient-gold {
+  background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-gold-dark) 100%);
+}
+
+.gradient-gold-text {
+  background: linear-gradient(135deg, var(--accent-gold-light) 0%, var(--accent-gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-dark {
+  background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-primary) 100%);
+}
+
+/* Chart bar animations */
+.chart-bar {
+  transform-origin: bottom;
+  animation: growUp 0.8s ease-out forwards;
+}
+
+/* Scrollbar styling - dark theme */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-secondary);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-gold-muted);
+}
+
+/* Gold glow effects */
+.gold-glow {
+  box-shadow: 0 0 20px rgba(212, 165, 116, 0.3);
+}
+
+.gold-glow-hover:hover {
+  box-shadow: 0 0 30px rgba(212, 165, 116, 0.4);
+}
+
+/* Status indicators */
+.status-active {
+  background: var(--accent-gold);
+  box-shadow: 0 0 10px rgba(212, 165, 116, 0.5);
+}
+
+.status-inactive {
+  background: var(--text-muted);
+}
+
+.status-error {
+  background: var(--status-error);
+  box-shadow: 0 0 10px rgba(248, 113, 113, 0.5);
+}
+
+.status-dot {
+  position: relative;
+}
+
+.status-dot::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  background: inherit;
+  opacity: 0.4;
+  animation: pulse-ring 2s ease-in-out infinite;
+}
+
+/* Button styles */
+.btn-gold {
+  background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-gold-dark) 100%);
+  color: #000;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-gold:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(212, 165, 116, 0.4);
+}
+
+.btn-outline-gold {
+  background: transparent;
+  border: 1px solid var(--accent-gold);
+  color: var(--accent-gold);
+  transition: all 0.3s ease;
+}
+
+.btn-outline-gold:hover {
+  background: rgba(212, 165, 116, 0.1);
+}
+
+/* Input styles */
+.input-dark {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+}
+
+.input-dark:focus {
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 0 3px rgba(212, 165, 116, 0.1);
+  outline: none;
+}
+
+.input-dark::placeholder {
+  color: var(--text-muted);
+}
+
+/* Badge styles */
+.badge-gold {
+  background: rgba(212, 165, 116, 0.15);
+  color: var(--accent-gold);
+  border: 1px solid rgba(212, 165, 116, 0.3);
+}
+
+.badge-success {
+  background: rgba(74, 222, 128, 0.15);
+  color: var(--status-success);
+}
+
+.badge-warning {
+  background: rgba(251, 191, 36, 0.15);
+  color: var(--status-warning);
+}
+
+.badge-error {
+  background: rgba(248, 113, 113, 0.15);
+  color: var(--status-error);
+}
+
+/* Nav link active state */
+.nav-link-active {
+  background: rgba(212, 165, 116, 0.1);
+  border-left: 3px solid var(--accent-gold);
+  color: var(--accent-gold);
+}
+
+/* Avatar hover effect */
+.avatar-hover {
+  transition: all 0.3s ease;
+}
+
+.avatar-hover:hover {
+  transform: scale(1.1);
+  z-index: 10;
+}
+
+/* Ripple effect */
+.ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(212, 165, 116, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+}
+
+.ripple:active::before {
+  width: 300px;
+  height: 300px;
+}
+
+/* World map dots pattern */
+.map-dots {
+  background-image: radial-gradient(circle, var(--accent-gold-muted) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Glass effect for dark theme */
+.glass-dark {
+  background: rgba(22, 22, 22, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border-primary);
+}

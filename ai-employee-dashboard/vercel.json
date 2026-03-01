@@ -1,0 +1,9 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "framework": "nextjs",
+  "env": {
+    "VAULT_PATH": "/tmp/AI_Employee_Vault",
+    "PROJECT_ROOT": "/tmp"
+  }
+}

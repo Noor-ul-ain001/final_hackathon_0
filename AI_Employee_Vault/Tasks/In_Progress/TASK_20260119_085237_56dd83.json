@@ -1,0 +1,85 @@
+{
+  "id": "TASK_20260119_085237_56dd83",
+  "title": "SOCIAL_20260117_demo_linkedin_post",
+  "description": "## Platform\nLinkedIn\n\n## Content\nThrilled to share our latest innovation: an AI Employee system that autonomously manages business operations while keeping humans in the loop for critical decisions.\n\nKey features:\n- Email management with AI-drafted responses\n- Social media scheduling and posting\n- Financial transaction monitoring via Xero\n- Real-time WhatsApp notifications\n- CEO briefing generation\n\nThe future of work is here - augmenting human capabilities with AI assistance.\n\n## Hashtags\n#Arti",
+  "source": "social_post",
+  "priority": "normal",
+  "status": "in_progress",
+  "steps": [
+    {
+      "id": "TASK_20260119_085237_56dd83_STEP_00",
+      "description": "Gather context and trending topics",
+      "action_type": "read_data",
+      "parameters": {
+        "sources": [
+          "business_goals",
+          "recent_posts"
+        ]
+      },
+      "requires_approval": false,
+      "status": "completed",
+      "result": {
+        "sources_read": 2,
+        "data": {
+          "business_goals": "# Business Goals\n\n---\nlast_updated: 2026-01-15\nreview_frequency: weekly\nfiscal_year: 2026\n---\n\n## Executive Summary\n\nThis document defines the business goals, metrics, and operational guidelines for the AI Employee system. It serves as the strategic reference for automated decision-making, content creation, and business reporting.\n\n## Q1 2026 Objectives (Jan - Mar)\n\n### Revenue Target\n- **Monthly Goal**: $10,000\n- **Quarterly Goal**: $30,000\n- **Current MTD**: $0 (update monthly)\n- **Current QTD**: $0 (update quarterly)\n\n### Growth Targets\n- New clients per month: 3\n- Conversion rate: 15%\n- Customer retention: 90%\n- Average project value: $3,500\n\n## Key Performance Metrics\n\n| Metric | Target | Current | Alert Threshold | Status |\n|--------|--------|---------|----------------|--------|\n| Monthly Revenue | $10,000 | $0 | < $7,000 | \ud83d\udd34 |\n| Client Response Time | < 24 hours | TBD | > 48 hours | \ud83d\udfe1 |\n| Invoice Payment Rate | > 90% | TBD | < 80% | \ud83d\udfe2 |\n| Software Costs | < $500/month | TBD | > ",
+          "recent_posts": null
+        }
+      },
+      "error": null,
+      "executed_at": "2026-01-19T08:53:09.139564",
+      "approved_by": null
+    },
+    {
+      "id": "TASK_20260119_085237_56dd83_STEP_01",
+      "description": "Draft tweet content",
+      "action_type": "draft",
+      "parameters": {
+        "max_chars": 280,
+        "platform": "twitter"
+      },
+      "requires_approval": false,
+      "status": "completed",
+      "result": {
+        "draft": "generated",
+        "params": {
+          "max_chars": 280,
+          "platform": "twitter"
+        }
+      },
+      "error": null,
+      "executed_at": "2026-01-19T08:53:40.409363",
+      "approved_by": null
+    },
+    {
+      "id": "TASK_20260119_085237_56dd83_STEP_02",
+      "description": "Post to Twitter",
+      "action_type": "post",
+      "parameters": {
+        "mcp_server": "twitter",
+        "tool": "twitter_post_tweet"
+      },
+      "requires_approval": true,
+      "status": "pending",
+      "result": null,
+      "error": null,
+      "executed_at": null,
+      "approved_by": null
+    }
+  ],
+  "context": {
+    "filepath": "AI_Employee_Vault\\Needs_Action\\SOCIAL_20260117_demo_linkedin_post.md",
+    "metadata": {
+      "type": "social_post",
+      "platform": "linkedin",
+      "status": "needs_action",
+      "created": "2026-01-17T10:05:00Z",
+      "simulation": "true"
+    },
+    "body": "## Platform\nLinkedIn\n\n## Content\nThrilled to share our latest innovation: an AI Employee system that autonomously manages business operations while keeping humans in the loop for critical decisions.\n\nKey features:\n- Email management with AI-drafted responses\n- Social media scheduling and posting\n- Financial transaction monitoring via Xero\n- Real-time WhatsApp notifications\n- CEO briefing generation\n\nThe future of work is here - augmenting human capabilities with AI assistance.\n\n## Hashtags\n#ArtificialIntelligence #BusinessAutomation #FutureOfWork #Innovation\n\n## Schedule\nimmediate\n\n## Notes\nDemo post for hackathon presentation - LinkedIn version"
+  },
+  "created_at": "2026-01-19T08:52:37.336422",
+  "started_at": "2026-01-19T08:52:38.416766",
+  "completed_at": null,
+  "error": null,
+  "retry_count": 0
+}

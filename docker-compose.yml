@@ -1,0 +1,69 @@
+# AI Employee - Odoo Community Edition Setup
+# Gold Tier Requirement: Self-hosted accounting system with JSON-RPC API integration
+#
+# Usage:
+#   docker-compose up -d          # Start Odoo and PostgreSQL
+#   docker-compose down           # Stop services
+#   docker-compose logs -f odoo   # View Odoo logs
+#
+# First-time setup:
+#   1. Run: docker-compose up -d
+#   2. Wait 30-60 seconds for initialization
+#   3. Open: http://localhost:8069
+#   4. Create database with:
+#      - Database Name: ai_employee
+#      - Email: admin@ai-employee.local
+#      - Password: admin123
+#      - Language: English
+#      - Country: Your country
+#   5. Install apps: Invoicing, Expenses, Contacts
+#   6. Set USE_ODOO_MCP=true in .env
+#   7. Restart AI Employee
+
+# version is obsolete in newer Docker Compose
+
+services:
+  odoo-db:
+    image: postgres:16
+    container_name: ai_employee_postgres
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=odoo
+      - POSTGRES_PASSWORD=odoo_secure_password
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - odoo-db-data:/var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U odoo"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  odoo:
+    image: odoo:17.0
+    container_name: ai_employee_odoo
+    depends_on:
+      odoo-db:
+        condition: service_healthy
+    environment:
+      - HOST=odoo-db
+      - USER=odoo
+      - PASSWORD=odoo_secure_password
+    volumes:
+      - odoo-web-data:/var/lib/odoo
+      - ./odoo-addons:/mnt/extra-addons
+      - ./odoo-config:/etc/odoo
+    ports:
+      - "8069:8069"
+      - "8072:8072"  # Live chat / longpolling
+    restart: unless-stopped
+    command: -- --database=ai_employee --init=base
+
+volumes:
+  odoo-db-data:
+    name: ai_employee_odoo_db
+  odoo-web-data:
+    name: ai_employee_odoo_data

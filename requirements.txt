@@ -1,0 +1,71 @@
+# AI Employee System - Python Dependencies
+# Install with: pip install -r requirements.txt
+#
+# Note: If you encounter build errors on Windows, install in stages:
+#   pip install -r requirements-core.txt
+#   pip install -r requirements-optional.txt
+
+# ========== CORE (Required) ==========
+
+# Environment & Config
+python-dotenv>=1.0.0          # Environment variable management
+
+# Google APIs (Gmail integration)
+google-api-python-client>=2.100.0  # Gmail API
+google-auth-httplib2>=0.2.0        # Google auth
+google-auth-oauthlib>=1.2.0        # OAuth for Google
+
+# File System Monitoring
+watchdog>=3.0.0               # File system event monitoring
+
+# HTTP & API Clients
+requests>=2.31.0              # HTTP library
+
+# Twilio (WhatsApp notifications)
+twilio>=8.10.0                # WhatsApp via Twilio
+
+# Web Framework (for webhook server)
+flask>=3.0.0                  # Webhook server
+
+# Data Processing
+python-dateutil>=2.8.2        # Date utilities
+pyyaml>=6.0.1                 # YAML parsing for frontmatter
+
+# ========== OPTIONAL (Install if needed) ==========
+
+# Markdown Processing (optional)
+markdown>=3.5.0               # Markdown processing
+python-frontmatter>=1.1.0     # Parse markdown frontmatter
+
+# Process Management
+psutil>=5.9.0                 # Process utilities
+
+# Rich Terminal UI (optional)
+rich>=13.0.0                  # Rich terminal output
+
+# Scheduling (optional)
+schedule>=1.2.0               # Job scheduling
+
+# ========== SOCIAL MEDIA (Install if using social features) ==========
+
+# Twitter/X
+tweepy>=4.14.0                # Twitter/X API
+
+# ========== DEVELOPMENT (Install for development) ==========
+
+# Testing
+pytest>=7.4.0                 # Testing framework
+
+# Code Quality
+black>=23.0.0                 # Code formatter
+flake8>=6.0.0                 # Linter
+
+# ========== REMOVED (Cause build issues on Windows/Python 3.14) ==========
+# flask-socketio - requires greenlet (build issues)
+# textual - requires greenlet (build issues)
+# selenium - large dependency, use playwright instead
+# playwright - requires separate install: playwright install
+# apscheduler - complex dependencies
+# sqlalchemy - not needed for basic operation
+# xero-python - install separately if using Xero
+# facebook-sdk - install separately if using Facebook

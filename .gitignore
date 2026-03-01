@@ -1,0 +1,102 @@
+# AI Employee - Git Ignore File
+
+# Environment and Credentials (CRITICAL - NEVER COMMIT)
+.env
+credentials.json
+token.json
+*.pem
+*.key
+*.p12
+secrets/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+venv/
+env/
+ENV/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+*.log
+logs/
+AI_Employee_Vault/Logs/*.log
+
+# PM2
+.pm2/
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Obsidian
+.obsidian/
+.trash/
+
+# Test files
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# OS files
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Node modules (if using Node-based tools)
+node_modules/
+
+# Database files (if added later)
+*.db
+*.sqlite
+*.sqlite3
+
+# Sensitive action files (optional - keep local only)
+AI_Employee_Vault/Pending_Approval/*.md
+AI_Employee_Vault/Approved/*.md
+
+# Claude temp files
+tmpclaude-*/
+tmpclaude-*-cwd
+nul
+
+# Status files
+.orchestrator_status.json
+.watchdog_status.json

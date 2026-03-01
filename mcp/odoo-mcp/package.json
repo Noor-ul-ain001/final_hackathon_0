@@ -1,0 +1,24 @@
+{
+  "name": "odoo-mcp-server",
+  "version": "1.0.0",
+  "description": "Odoo MCP server for AI Employee - accounting and business management",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "keywords": [
+    "mcp",
+    "odoo",
+    "accounting",
+    "erp",
+    "ai-employee"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "xmlrpc": "^1.3.2",
+    "dotenv": "^16.4.5"
+  }
+}

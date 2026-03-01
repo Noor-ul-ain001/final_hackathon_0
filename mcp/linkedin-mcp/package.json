@@ -1,0 +1,25 @@
+{
+  "name": "linkedin-mcp-server",
+  "version": "1.0.0",
+  "description": "LinkedIn MCP server for AI Employee - enables posting to LinkedIn",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "keywords": [
+    "mcp",
+    "linkedin",
+    "automation",
+    "ai-employee"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0"
+  }
+}

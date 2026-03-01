@@ -1,0 +1,57 @@
+{
+  "id": "TASK_20260119_085237_c336c3",
+  "title": "POST_instagram_20260117_1150",
+  "description": "## Social Media Post Request\n\n**Platform:** Instagram\n**Scheduled:** 2026-01-17T11:50:26.516245\n\n## Guidelines\nVisual-first platform. Caption should be engaging with hashtags at end.\n\n## Instructions for Claude\n\nUse the `linkedin-poster.skill.md` pattern to generate engaging content for Instagram.\n\nConsider:\n1. Current business goals from Business_Goals.md\n2. Recent achievements from Done folder\n3. Industry trends and relevant topics\n4. Engagement optimization\n\n## Draft Content\n<!-- Claude: Gene",
+  "source": "social_post_request",
+  "priority": "normal",
+  "status": "in_progress",
+  "steps": [
+    {
+      "id": "TASK_20260119_085237_c336c3_STEP_00",
+      "description": "Analyze task requirements",
+      "action_type": "analyze",
+      "parameters": {
+        "task_content": "## Social Media Post Request\n\n**Platform:** Instagram\n**Scheduled:** 2026-01-17T11:50:26.516245\n\n## Guidelines\nVisual-first platform. Caption should be engaging with hashtags at end.\n\n## Instructions for Claude\n\nUse the `linkedin-poster.skill.md` pattern to generate engaging content for Instagram.\n\nConsider:\n1. Current business goals from Business_Goals.md\n2. Recent achievements from Done folder\n3. Industry trends and relevant topics\n4. Engagement optimization\n\n## Draft Content\n<!-- Claude: Gene"
+      },
+      "requires_approval": false,
+      "status": "completed",
+      "result": {
+        "analysis": "completed",
+        "params": {
+          "task_content": "## Social Media Post Request\n\n**Platform:** Instagram\n**Scheduled:** 2026-01-17T11:50:26.516245\n\n## Guidelines\nVisual-first platform. Caption should be engaging with hashtags at end.\n\n## Instructions for Claude\n\nUse the `linkedin-poster.skill.md` pattern to generate engaging content for Instagram.\n\nConsider:\n1. Current business goals from Business_Goals.md\n2. Recent achievements from Done folder\n3. Industry trends and relevant topics\n4. Engagement optimization\n\n## Draft Content\n<!-- Claude: Gene"
+        }
+      },
+      "error": null,
+      "executed_at": "2026-01-19T08:53:08.758745",
+      "approved_by": null
+    },
+    {
+      "id": "TASK_20260119_085237_c336c3_STEP_01",
+      "description": "Execute task action",
+      "action_type": "api_call",
+      "parameters": {},
+      "requires_approval": true,
+      "status": "pending",
+      "result": null,
+      "error": null,
+      "executed_at": null,
+      "approved_by": null
+    }
+  ],
+  "context": {
+    "filepath": "AI_Employee_Vault\\Needs_Action\\POST_instagram_20260117_1150.md",
+    "metadata": {
+      "type": "social_post_request",
+      "platform": "instagram",
+      "scheduled_time": "2026-01-17T11:50:26.516245",
+      "status": "pending_content",
+      "priority": "normal"
+    },
+    "body": "## Social Media Post Request\n\n**Platform:** Instagram\n**Scheduled:** 2026-01-17T11:50:26.516245\n\n## Guidelines\nVisual-first platform. Caption should be engaging with hashtags at end.\n\n## Instructions for Claude\n\nUse the `linkedin-poster.skill.md` pattern to generate engaging content for Instagram.\n\nConsider:\n1. Current business goals from Business_Goals.md\n2. Recent achievements from Done folder\n3. Industry trends and relevant topics\n4. Engagement optimization\n\n## Draft Content\n<!-- Claude: Generate content below -->\n\n**Post Text:**\n[Generate engaging post content here]\n\n**Hashtags:**\n[Relevant hashtags]\n\n**Media Suggestion:**\n[Image/video recommendation if applicable]\n\n## Approval Required\nAfter content is generated, move to /Pending_Approval for review.\nHuman must move to /Approved before publishing."
+  },
+  "created_at": "2026-01-19T08:52:37.205049",
+  "started_at": "2026-01-19T08:52:37.419364",
+  "completed_at": null,
+  "error": null,
+  "retry_count": 0
+}

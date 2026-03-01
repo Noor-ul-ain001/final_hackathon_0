@@ -1,0 +1,44 @@
+{
+  "success": true,
+  "platform": "twitter",
+  "period": {
+    "start": "2026-02-22T18:07:29.751716",
+    "end": "2026-03-01T18:07:29.751716",
+    "days": 7
+  },
+  "account": {
+    "followers": 1250,
+    "following": 350,
+    "total_tweets": 487
+  },
+  "activity": {
+    "tweets_posted": 7,
+    "avg_tweets_per_day": 1.0
+  },
+  "engagement": {
+    "total_likes": 160,
+    "total_retweets": 75,
+    "total_replies": 32,
+    "total_impressions": 4097,
+    "total_engagement": 267,
+    "avg_likes_per_tweet": 22.9,
+    "avg_retweets_per_tweet": 10.7,
+    "engagement_rate": "6.52%"
+  },
+  "top_performing_tweet": {
+    "id": "sim_0",
+    "text": "Simulated tweet 1...",
+    "likes": 34,
+    "retweets": 13,
+    "url": "https://twitter.com/i/web/status/sim_0"
+  },
+  "recommendations": [
+    {
+      "category": "Content Strategy",
+      "action": "Replicate top content",
+      "reason": "Your best tweet had 34 likes. Analyze what made it successful.",
+      "priority": "low"
+    }
+  ],
+  "for_ceo_briefing": true
+}

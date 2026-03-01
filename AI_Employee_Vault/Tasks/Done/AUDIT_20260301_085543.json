@@ -1,0 +1,18 @@
+{
+  "id": "AUDIT_20260301_085543",
+  "title": "Monthly Subscription Audit",
+  "description": "Review all active subscriptions and identify cost optimization opportunities",
+  "source": "scheduled",
+  "priority": "normal",
+  "status": "completed",
+  "steps": [],
+  "context": {
+    "audit_type": "subscription",
+    "period": "2026-03"
+  },
+  "created_at": "2026-03-01T08:55:57.955591",
+  "started_at": "2026-03-01T08:55:57.958210",
+  "completed_at": "2026-03-01T08:56:28.014010",
+  "error": null,
+  "retry_count": 0
+}

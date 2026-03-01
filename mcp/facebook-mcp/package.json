@@ -1,0 +1,28 @@
+{
+  "name": "facebook-mcp",
+  "version": "1.0.0",
+  "description": "MCP Server for Facebook Graph API - Post to Facebook Pages",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Facebook MCP Server - Manual testing only\""
+  },
+  "dependencies": {},
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "author": "AI Employee",
+  "license": "MIT",
+  "keywords": [
+    "mcp",
+    "facebook",
+    "graph-api",
+    "social-media",
+    "automation"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ai-employee/ai_employee"
+  }
+}
