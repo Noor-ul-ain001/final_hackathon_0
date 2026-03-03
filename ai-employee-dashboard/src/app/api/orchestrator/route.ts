@@ -9,6 +9,9 @@ const execAsync = promisify(exec);
 const PROJECT_ROOT = process.env.PROJECT_ROOT || path.join(process.cwd(), '..');
 const STATUS_FILE = path.join(PROJECT_ROOT, '.orchestrator_status.json');
 const PID_FILE = path.join(PROJECT_ROOT, '.orchestrator.pid');
+const IS_WINDOWS = process.platform === 'win32';
+// Only Vercel is read-only; HuggingFace Spaces (Docker) can run Python
+const IS_VERCEL = process.env.VERCEL === '1' || process.env.VERCEL_ENV !== undefined;
 
 interface OrchestratorStatus {
   running: boolean;
@@ -63,8 +66,14 @@ function deletePidFile(): void {
 
 async function isProcessRunning(pid: number): Promise<boolean> {
   try {
-    const { stdout } = await execAsync(`tasklist /FI "PID eq ${pid}" 2>NUL`);
-    return stdout.includes(pid.toString());
+    if (IS_WINDOWS) {
+      const { stdout } = await execAsync(`tasklist /FI "PID eq ${pid}" 2>NUL`);
+      return stdout.includes(pid.toString());
+    } else {
+      // On Linux: kill -0 checks if process exists without signaling it
+      await execAsync(`kill -0 ${pid} 2>/dev/null`);
+      return true;
+    }
   } catch {
     return false;
   }
@@ -72,20 +81,27 @@ async function isProcessRunning(pid: number): Promise<boolean> {
 
 async function findOrchestratorProcess(): Promise<number | null> {
   try {
-    const { stdout } = await execAsync(
-      `wmic process where "name='python.exe' or name='python3.exe'" get processid,commandline 2>NUL`
-    );
+    const targets = ['start_watchers.py', 'gmail_watcher.py', 'ralph_wiggum_loop.py'];
 
-    // Look for start_watchers.py or gmail_watcher.py (core watcher)
-    const targets = ['start_watchers.py', 'gmail_watcher.py', 'dynamic_orchestrator.py'];
-    const lines = stdout.split('\n');
-    for (const line of lines) {
-      if (targets.some(t => line.includes(t))) {
-        const match = line.match(/(\d+)\s*$/);
-        if (match) {
-          return parseInt(match[1]);
+    if (IS_WINDOWS) {
+      const { stdout } = await execAsync(
+        `wmic process where "name='python.exe' or name='python3.exe'" get processid,commandline 2>NUL`
+      );
+      const lines = stdout.split('\n');
+      for (const line of lines) {
+        if (targets.some(t => line.includes(t))) {
+          const match = line.match(/(\d+)\s*$/);
+          if (match) return parseInt(match[1]);
         }
       }
+    } else {
+      // On Linux: pgrep -f searches command lines
+      const pattern = targets.join('|');
+      const { stdout } = await execAsync(
+        `pgrep -f "${pattern}" 2>/dev/null || true`
+      );
+      const pid = parseInt(stdout.trim().split('\n')[0]);
+      if (!isNaN(pid)) return pid;
     }
   } catch (error) {
     console.error('Failed to find orchestrator process:', error);
@@ -174,6 +190,14 @@ export async function POST(request: Request) {
   const body = await request.json();
   const { action } = body;
 
+  // Vercel can't run Python processes — return a helpful message
+  if (IS_VERCEL) {
+    return NextResponse.json({
+      success: false,
+      message: 'The AI Employee backend runs on your local machine or HuggingFace Space — it cannot be started from Vercel.'
+    }, { status: 503 });
+  }
+
   if (action === 'start') {
     // Check if already running
     const existingPid = await findOrchestratorProcess();
@@ -186,7 +210,6 @@ export async function POST(request: Request) {
     }
 
     try {
-      // Prefer start_watchers.py; fall back to alternatives
       const candidates = ['start_watchers.py', 'gmail_watcher.py', 'ralph_wiggum_loop.py'];
       let orchestratorScript: string | null = null;
       for (const c of candidates) {
@@ -195,14 +218,6 @@ export async function POST(request: Request) {
       }
 
       if (!orchestratorScript) {
-        // Detect cloud/Vercel environment where Python scripts can't exist
-        const isCloud = process.env.VERCEL === '1' || process.env.VERCEL_ENV !== undefined || PROJECT_ROOT === '/tmp';
-        if (isCloud) {
-          return NextResponse.json({
-            success: false,
-            message: 'The AI Employee backend runs on your local machine — open your local dashboard to start the watchers. This hosted version shows the vault and approvals in read-only mode.'
-          }, { status: 503 });
-        }
         return NextResponse.json({
           success: false,
           message: `Watcher script not found. Searched in: ${PROJECT_ROOT} (expected start_watchers.py, gmail_watcher.py, or ralph_wiggum_loop.py)`
@@ -210,25 +225,33 @@ export async function POST(request: Request) {
       }
 
       // Ensure logs directory exists
-      const logsDir = path.join(PROJECT_ROOT, 'AI_Employee_Vault', 'Logs');
+      const logsDir = path.join(process.env.VAULT_PATH || '/tmp/AI_Employee_Vault', 'Logs');
       if (!fs.existsSync(logsDir)) {
         fs.mkdirSync(logsDir, { recursive: true });
       }
 
-      // Start process detached so it keeps running after the request
-      const child = spawn('cmd', ['/c', 'start', '/B', 'python', orchestratorScript], {
-        cwd: PROJECT_ROOT,
-        detached: true,
-        stdio: 'ignore',
-        windowsHide: true
-      });
+      // Start process — command differs on Windows vs Linux
+      let child;
+      if (IS_WINDOWS) {
+        child = spawn('cmd', ['/c', 'start', '/B', 'python', orchestratorScript], {
+          cwd: PROJECT_ROOT,
+          detached: true,
+          stdio: 'ignore',
+          windowsHide: true
+        });
+      } else {
+        child = spawn('python3', [orchestratorScript], {
+          cwd: PROJECT_ROOT,
+          detached: true,
+          stdio: 'ignore'
+        });
+      }
 
       child.unref();
 
       // Wait a moment for the process to start
       await new Promise(resolve => setTimeout(resolve, 2000));
 
-      // Find the newly started process
       const newPid = await findOrchestratorProcess();
 
       if (newPid) {
@@ -255,12 +278,8 @@ export async function POST(request: Request) {
 
   } else if (action === 'stop') {
     try {
-      // Find and kill the process
       let pid = readPid();
-
-      if (!pid) {
-        pid = await findOrchestratorProcess();
-      }
+      if (!pid) pid = await findOrchestratorProcess();
 
       if (!pid) {
         deletePidFile();
@@ -270,12 +289,14 @@ export async function POST(request: Request) {
         }, { status: 400 });
       }
 
-      // Kill the process
-      await execAsync(`taskkill /PID ${pid} /T /F`);
+      if (IS_WINDOWS) {
+        await execAsync(`taskkill /PID ${pid} /T /F`);
+      } else {
+        await execAsync(`kill -TERM ${pid} 2>/dev/null || kill -KILL ${pid} 2>/dev/null || true`);
+      }
 
       deletePidFile();
 
-      // Update status file
       if (fs.existsSync(STATUS_FILE)) {
         const status = readStatusFile();
         if (status) {
@@ -299,15 +320,17 @@ export async function POST(request: Request) {
 
   } else if (action === 'restart') {
     try {
-      // Stop first
       const pid = await findOrchestratorProcess();
       if (pid) {
-        await execAsync(`taskkill /PID ${pid} /T /F`);
+        if (IS_WINDOWS) {
+          await execAsync(`taskkill /PID ${pid} /T /F`);
+        } else {
+          await execAsync(`kill -TERM ${pid} 2>/dev/null || kill -KILL ${pid} 2>/dev/null || true`);
+        }
         deletePidFile();
         await new Promise(resolve => setTimeout(resolve, 2000));
       }
 
-      // Then start — pick the first available watcher script
       const candidates2 = ['start_watchers.py', 'gmail_watcher.py', 'ralph_wiggum_loop.py'];
       let orchestratorScript2: string | null = null;
       for (const c of candidates2) {
@@ -315,28 +338,33 @@ export async function POST(request: Request) {
         if (fs.existsSync(p)) { orchestratorScript2 = p; break; }
       }
       if (!orchestratorScript2) {
-        const isCloud = process.env.VERCEL === '1' || process.env.VERCEL_ENV !== undefined || PROJECT_ROOT === '/tmp';
-        const msg = isCloud
-          ? 'The AI Employee backend runs on your local machine — open your local dashboard to start the watchers.'
-          : `Watcher script not found. Searched in: ${PROJECT_ROOT}`;
-        return NextResponse.json({ success: false, message: msg }, { status: isCloud ? 503 : 404 });
+        return NextResponse.json({
+          success: false,
+          message: `Watcher script not found. Searched in: ${PROJECT_ROOT}`
+        }, { status: 404 });
       }
 
-      const child = spawn('cmd', ['/c', 'start', '/B', 'python', orchestratorScript2], {
-        cwd: PROJECT_ROOT,
-        detached: true,
-        stdio: 'ignore',
-        windowsHide: true
-      });
+      let child2;
+      if (IS_WINDOWS) {
+        child2 = spawn('cmd', ['/c', 'start', '/B', 'python', orchestratorScript2], {
+          cwd: PROJECT_ROOT,
+          detached: true,
+          stdio: 'ignore',
+          windowsHide: true
+        });
+      } else {
+        child2 = spawn('python3', [orchestratorScript2], {
+          cwd: PROJECT_ROOT,
+          detached: true,
+          stdio: 'ignore'
+        });
+      }
 
-      child.unref();
-
+      child2.unref();
       await new Promise(resolve => setTimeout(resolve, 2000));
 
       const newPid = await findOrchestratorProcess();
-      if (newPid) {
-        savePid(newPid);
-      }
+      if (newPid) savePid(newPid);
 
       return NextResponse.json({
         success: true,
