@@ -128,7 +128,7 @@ export default function BriefingsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] p-6">
+    <div className="min-h-screen bg-[#0a0a0a] p-4 sm:p-6">
       {/* Back to Dashboard */}
       <Link
         href="/"
@@ -140,23 +140,23 @@ export default function BriefingsPage() {
 
       {/* Header */}
       <div className="mb-6">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#d4a574] to-[#b8956a] flex items-center justify-center shadow-lg shadow-[#d4a574]/20">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#d4a574] to-[#b8956a] flex items-center justify-center shadow-lg shadow-[#d4a574]/20 shrink-0">
               <BarChart3 className="w-7 h-7 text-black" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-white flex items-center gap-2">
+              <h1 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
                 CEO Briefing Generator
                 <Sparkles className="w-5 h-5 text-[#d4a574]" />
               </h1>
-              <p className="text-[#a0a0a0]">Monday Morning Reports & Business Insights</p>
+              <p className="text-sm text-[#a0a0a0]">Monday Morning Reports & Business Insights</p>
             </div>
           </div>
           <button
             onClick={fetchData}
             disabled={loading}
-            className="flex items-center gap-2 px-4 py-2 bg-[#161616] rounded-xl text-sm font-medium text-[#a0a0a0] hover:text-[#d4a574] hover:border-[#d4a574]/30 transition-colors border border-[#1f1f1f]"
+            className="self-start sm:self-auto flex items-center gap-2 px-4 py-2 bg-[#161616] rounded-xl text-sm font-medium text-[#a0a0a0] hover:text-[#d4a574] hover:border-[#d4a574]/30 transition-colors border border-[#1f1f1f]"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
             Refresh
@@ -182,9 +182,9 @@ export default function BriefingsPage() {
           </div>
         </div>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Controls Panel */}
-          <div className="lg:col-span-1 space-y-6">
+          <div className="md:col-span-1 lg:col-span-1 space-y-6">
             {/* Generate Briefing Card */}
             <div className="bg-[#111111] rounded-2xl border border-[#1f1f1f] p-6">
               <div className="flex items-center gap-3 mb-4">
@@ -308,7 +308,7 @@ export default function BriefingsPage() {
           </div>
 
           {/* Briefing Preview */}
-          <div className="lg:col-span-2">
+          <div className="md:col-span-1 lg:col-span-2">
             <div className="bg-[#111111] rounded-2xl border border-[#1f1f1f] p-6">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">

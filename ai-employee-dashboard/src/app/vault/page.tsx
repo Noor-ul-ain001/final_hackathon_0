@@ -243,19 +243,19 @@ export default function VaultPage() {
         {/* ── How it works banner ── */}
         <div className="bg-[#111] border border-[#1f1f1f] rounded-2xl p-4">
           <p className="text-xs text-[#555] uppercase tracking-wider mb-3 font-semibold">How it works</p>
-          <div className="flex items-center gap-2 flex-wrap">
+          <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
             {[
               { icon: Inbox,     label: '1. Email arrives',        sub: 'Gmail watcher detects it',   color: 'text-blue-400'    },
               { icon: Sparkles,  label: '2. Click "Generate Reply"', sub: 'AI writes a draft for you',  color: 'text-amber-400'   },
               { icon: Check,     label: '3. Review & Approve',      sub: 'Check the draft, then send', color: 'text-emerald-400' },
               { icon: Send,      label: '4. Email sent',            sub: 'Reply lands in their inbox', color: 'text-purple-400'  },
             ].map((step, i) => (
-              <div key={i} className="flex items-center gap-2">
+              <div key={i} className="flex items-center gap-2 shrink-0">
                 <div className="flex items-center gap-2 bg-[#161616] rounded-xl px-3 py-2">
                   <step.icon className={`w-4 h-4 ${step.color} shrink-0`} />
                   <div>
-                    <p className="text-xs font-medium text-white">{step.label}</p>
-                    <p className="text-[10px] text-[#555]">{step.sub}</p>
+                    <p className="text-xs font-medium text-white whitespace-nowrap">{step.label}</p>
+                    <p className="text-[10px] text-[#555] whitespace-nowrap">{step.sub}</p>
                   </div>
                 </div>
                 {i < 3 && <ArrowRight className="w-3 h-3 text-[#333] shrink-0" />}

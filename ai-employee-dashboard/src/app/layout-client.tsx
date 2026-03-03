@@ -2,11 +2,22 @@
 
 import Navigation from '@/components/navigation';
 import { useState } from 'react';
-import { Menu, LayoutDashboard, Calendar, Clock, FolderOpen, FileText, Users, BarChart3, Settings, HelpCircle } from 'lucide-react';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
+import { Menu, LayoutDashboard, Clock, FolderOpen, FileText, Settings, HelpCircle, DollarSign } from 'lucide-react';
 import { NotificationProvider } from '@/contexts/notification-context';
+
+const BOTTOM_NAV = [
+  { href: '/', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/approvals', label: 'Approvals', icon: Clock },
+  { href: '/vault', label: 'Vault', icon: FolderOpen },
+  { href: '/briefings', label: 'Briefings', icon: FileText },
+  { href: '/settings', label: 'Settings', icon: Settings },
+];
 
 export default function LayoutClient({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <NotificationProvider>
@@ -64,26 +75,29 @@ export default function LayoutClient({ children }: { children: React.ReactNode }
             <ul className="space-y-1">
               {[
                 { href: '/', label: 'Dashboard', icon: LayoutDashboard },
-                { href: '/calendar', label: 'Calendar', icon: Calendar },
                 { href: '/approvals', label: 'Approvals', icon: Clock },
                 { href: '/vault', label: 'Vault', icon: FolderOpen },
                 { href: '/briefings', label: 'Briefings', icon: FileText },
-                { href: '/team', label: 'Team', icon: Users },
-                { href: '/reports', label: 'Reports', icon: BarChart3 },
+                { href: '/accounting', label: 'Accounting', icon: DollarSign },
                 { href: '/settings', label: 'Settings', icon: Settings },
                 { href: '/help', label: 'Help Center', icon: HelpCircle },
               ].map((item) => {
                 const IconComponent = item.icon;
+                const isActive = pathname === item.href;
                 return (
                   <li key={item.href}>
-                    <a
+                    <Link
                       href={item.href}
-                      className="flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 text-[#a0a0a0] hover:bg-[#161616] hover:text-white"
+                      className={`flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 ${
+                        isActive
+                          ? 'bg-[#d4a574]/10 text-[#d4a574] border-l-2 border-[#d4a574]'
+                          : 'text-[#a0a0a0] hover:bg-[#161616] hover:text-white'
+                      }`}
                       onClick={() => setSidebarOpen(false)}
                     >
                       <IconComponent className="w-5 h-5" />
                       <span className="font-medium">{item.label}</span>
-                    </a>
+                    </Link>
                   </li>
                 );
               })}
@@ -91,10 +105,32 @@ export default function LayoutClient({ children }: { children: React.ReactNode }
           </nav>
         </div>
 
-        <main className="flex-1 overflow-y-auto bg-[#0a0a0a] md:ml-0 pt-14 md:pt-0 transition-all duration-300">
+        <main className="flex-1 overflow-y-auto bg-[#0a0a0a] md:ml-0 pt-14 pb-16 md:pt-0 md:pb-0 transition-all duration-300">
           {children}
         </main>
       </div>
+
+      {/* Mobile Bottom Navigation Bar */}
+      <nav className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-[#0d0d0d] border-t border-[#1f1f1f]">
+        <div className="flex items-center justify-around px-2 py-2">
+          {BOTTOM_NAV.map((item) => {
+            const Icon = item.icon;
+            const isActive = pathname === item.href;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`flex flex-col items-center gap-1 px-3 py-1.5 rounded-xl transition-colors min-w-0 ${
+                  isActive ? 'text-[#d4a574]' : 'text-[#666]'
+                }`}
+              >
+                <Icon className="w-5 h-5 shrink-0" />
+                <span className="text-[10px] font-medium truncate">{item.label}</span>
+              </Link>
+            );
+          })}
+        </div>
+      </nav>
     </NotificationProvider>
   );
 }

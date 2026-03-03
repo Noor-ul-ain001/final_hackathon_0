@@ -243,7 +243,7 @@ export default function ApprovalsPage() {
             </div>
 
             {showActions && (
-              <div className="flex flex-row sm:flex-col gap-2 mt-2 sm:mt-0">
+              <div className="flex flex-col xs:flex-row sm:flex-col gap-2 mt-2 sm:mt-0 shrink-0">
                 <button
                   onClick={() => handleApprove(item)}
                   disabled={isProcessing}
@@ -305,7 +305,7 @@ export default function ApprovalsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0a0a0a] p-6">
+      <div className="min-h-screen bg-[#0a0a0a] p-4 sm:p-6">
         <div className="max-w-5xl mx-auto">
           <div className="flex items-center justify-center h-64">
             <div className="flex flex-col items-center">
@@ -319,12 +319,12 @@ export default function ApprovalsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] p-6">
+    <div className="min-h-screen bg-[#0a0a0a] p-4 sm:p-6">
       <div className="max-w-5xl mx-auto">
         {/* Back to Dashboard */}
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-[#a0a0a0] hover:text-[#d4a574] transition-colors mb-6"
+          className="inline-flex items-center gap-2 text-[#a0a0a0] hover:text-[#d4a574] transition-colors mb-6 text-sm"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Dashboard
@@ -384,8 +384,8 @@ export default function ApprovalsPage() {
 
         {/* WhatsApp Info */}
         <div className="bg-gradient-to-r from-emerald-500/10 to-emerald-500/5 rounded-xl p-4 border border-emerald-500/20 mb-6">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-emerald-500/20 rounded-lg">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+            <div className="p-2 bg-emerald-500/20 rounded-lg shrink-0">
               <Smartphone className="w-5 h-5 text-emerald-400" />
             </div>
             <div className="flex-1">
@@ -394,7 +394,7 @@ export default function ApprovalsPage() {
                 Reply to notifications with &quot;approve CODE&quot; or &quot;reject CODE&quot; to approve/reject from WhatsApp
               </p>
             </div>
-            <div className="text-right">
+            <div className="sm:text-right">
               <p className="text-xs text-emerald-400 font-medium">Quick Commands</p>
               <p className="text-xs text-[#666666]">list | status | help</p>
             </div>
