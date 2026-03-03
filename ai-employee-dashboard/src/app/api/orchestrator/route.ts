@@ -186,8 +186,8 @@ export async function POST(request: Request) {
     }
 
     try {
-      // Prefer start_watchers.py; fall back to gmail_watcher.py alone
-      const candidates = ['start_watchers.py', 'gmail_watcher.py'];
+      // Prefer start_watchers.py; fall back to alternatives
+      const candidates = ['start_watchers.py', 'gmail_watcher.py', 'ralph_wiggum_loop.py'];
       let orchestratorScript: string | null = null;
       for (const c of candidates) {
         const p = path.join(PROJECT_ROOT, c);
@@ -195,9 +195,17 @@ export async function POST(request: Request) {
       }
 
       if (!orchestratorScript) {
+        // Detect cloud/Vercel environment where Python scripts can't exist
+        const isCloud = process.env.VERCEL === '1' || process.env.VERCEL_ENV !== undefined || PROJECT_ROOT === '/tmp';
+        if (isCloud) {
+          return NextResponse.json({
+            success: false,
+            message: 'The AI Employee backend runs on your local machine — open your local dashboard to start the watchers. This hosted version shows the vault and approvals in read-only mode.'
+          }, { status: 503 });
+        }
         return NextResponse.json({
           success: false,
-          message: 'Watcher script not found (expected start_watchers.py or gmail_watcher.py)'
+          message: `Watcher script not found. Searched in: ${PROJECT_ROOT} (expected start_watchers.py, gmail_watcher.py, or ralph_wiggum_loop.py)`
         }, { status: 404 });
       }
 
@@ -300,14 +308,18 @@ export async function POST(request: Request) {
       }
 
       // Then start — pick the first available watcher script
-      const candidates2 = ['start_watchers.py', 'gmail_watcher.py'];
+      const candidates2 = ['start_watchers.py', 'gmail_watcher.py', 'ralph_wiggum_loop.py'];
       let orchestratorScript2: string | null = null;
       for (const c of candidates2) {
         const p = path.join(PROJECT_ROOT, c);
         if (fs.existsSync(p)) { orchestratorScript2 = p; break; }
       }
       if (!orchestratorScript2) {
-        return NextResponse.json({ success: false, message: 'Watcher script not found' }, { status: 404 });
+        const isCloud = process.env.VERCEL === '1' || process.env.VERCEL_ENV !== undefined || PROJECT_ROOT === '/tmp';
+        const msg = isCloud
+          ? 'The AI Employee backend runs on your local machine — open your local dashboard to start the watchers.'
+          : `Watcher script not found. Searched in: ${PROJECT_ROOT}`;
+        return NextResponse.json({ success: false, message: msg }, { status: isCloud ? 503 : 404 });
       }
 
       const child = spawn('cmd', ['/c', 'start', '/B', 'python', orchestratorScript2], {
