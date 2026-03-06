@@ -30,6 +30,7 @@ interface OrchestratorStatus {
   pendingApprovals: number;
   lastUpdate: string | null;
   statusFileExists: boolean;
+  isCloudOnly: boolean;
 }
 
 export function AIEmployeeControl() {
@@ -108,6 +109,54 @@ export function AIEmployeeControl() {
   }
 
   const isRunning = status?.running ?? false;
+  const isCloudOnly = status?.isCloudOnly ?? false;
+
+  if (isCloudOnly) {
+    return (
+      <div className="bg-gradient-to-br from-[#111111] to-[#0d0d0d] p-6 rounded-2xl border border-[#1f1f1f]">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="p-3 rounded-xl bg-[#d4a574]/10">
+            <Bot className="w-6 h-6 text-[#d4a574]" />
+          </div>
+          <div>
+            <h2 className="text-xl font-bold text-white">AI Employee</h2>
+            <p className="text-xs text-[#666]">Digital FTE Control Panel</p>
+          </div>
+        </div>
+
+        <div className="p-4 rounded-xl bg-[#d4a574]/5 border border-[#d4a574]/20 mb-4">
+          <div className="flex items-start gap-3">
+            <Server className="w-5 h-5 text-[#d4a574] flex-shrink-0 mt-0.5" />
+            <div>
+              <p className="text-sm font-medium text-[#d4a574] mb-1">Hosted Preview Mode</p>
+              <p className="text-xs text-[#888] leading-relaxed">
+                The AI Employee backend (Python watchers) runs on a local machine or self-hosted server.
+                This Vercel deployment is a read-only preview — vault items, approvals, and briefings are visible here,
+                but the watcher processes must be started from your local dashboard or a Docker deployment.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3">
+          <div className="p-3 rounded-xl bg-[#0a0a0a] border border-[#1f1f1f]">
+            <div className="flex items-center gap-2 mb-1">
+              <Activity className="w-3.5 h-3.5 text-[#d4a574]" />
+              <span className="text-xs text-[#666]">Watchers</span>
+            </div>
+            <div className="text-sm font-bold text-[#555]">Not running</div>
+          </div>
+          <div className="p-3 rounded-xl bg-[#0a0a0a] border border-[#1f1f1f]">
+            <div className="flex items-center gap-2 mb-1">
+              <Bell className="w-3.5 h-3.5 text-[#d4a574]" />
+              <span className="text-xs text-[#666]">Pending</span>
+            </div>
+            <div className="text-sm font-bold text-white">{status?.pendingApprovals ?? 0}</div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-gradient-to-br from-[#111111] to-[#0d0d0d] p-6 rounded-2xl border border-[#1f1f1f] relative overflow-hidden">

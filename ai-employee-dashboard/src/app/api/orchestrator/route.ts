@@ -110,6 +110,24 @@ async function findOrchestratorProcess(): Promise<number | null> {
 }
 
 export async function GET() {
+  // In cloud-only (Vercel) mode, skip process checks entirely
+  if (IS_VERCEL) {
+    const status = readStatusFile();
+    return NextResponse.json({
+      running: false,
+      pid: null,
+      startTime: null,
+      uptime: '0s',
+      uptimeSeconds: 0,
+      watchers: { active: 0, total: 0, details: {} },
+      webhookServer: false,
+      pendingApprovals: status?.pending_approvals || 0,
+      lastUpdate: status?.last_update || null,
+      statusFileExists: fs.existsSync(STATUS_FILE),
+      isCloudOnly: true
+    });
+  }
+
   // Read the status file
   const status = readStatusFile();
 
@@ -182,7 +200,8 @@ export async function GET() {
     webhookServer: status?.webhook_server || false,
     pendingApprovals: status?.pending_approvals || 0,
     lastUpdate: status?.last_update || null,
-    statusFileExists: fs.existsSync(STATUS_FILE)
+    statusFileExists: fs.existsSync(STATUS_FILE),
+    isCloudOnly: false
   });
 }
 
